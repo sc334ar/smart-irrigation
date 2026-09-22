@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartFarm Irrigation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>🌱 SmartFarm Irrigation</h1>
+      <p>ESP32 + Arduino Smart Agriculture Dashboard</p>
+    </div>
+    <span id="connection" class="badge offline">ESP32 Offline</span>
+  </header>
+
+  <main>
+    <section class="cards">
+      <article class="card">
+        <span>Soil Moisture</span>
+        <strong id="moisture">--%</strong>
+        <div class="bar"><div id="moistureBar"></div></div>
+      </article>
+      <article class="card">
+        <span>Temperature</span>
+        <strong id="temperature">-- °C</strong>
+      </article>
+      <article class="card">
+        <span>Humidity</span>
+        <strong id="humidity">--%</strong>
+      </article>
+      <article class="card">
+        <span>Water Used</span>
+        <strong><span id="waterUsed">0.00</span> L</strong>
+      </article>
+    </section>
+
+    <section class="layout">
+      <div class="panel">
+        <h2>Irrigation Control</h2>
+
+        <label>Control mode</label>
+        <select id="mode">
+          <option value="auto">Smart Moisture</option>
+          <option value="schedule">Scheduled</option>
+          <option value="manual">Manual</option>
+        </select>
+
+        <div id="autoControls">
+          <label>Water when moisture is below (%)</label>
+          <input id="threshold" type="number" min="10" max="90" value="35">
+
+          <label>Watering duration (seconds)</label>
+          <input id="duration" type="number" min="1" max="300" value="20">
+        </div>
+
+        <div id="scheduleControls" class="hidden">
+          <label>Start time</label>
+          <input id="startTime" type="time" value="07:00">
+
+          <label>Repeat every (hours)</label>
+          <input id="interval" type="number" min="1" max="168" value="6">
+        </div>
+
+        <div class="buttons">
+          <button id="save">Save Settings</button>
+          <button id="waterNow" class="secondary">💧 Water Now</button>
+        </div>
+
+        <p id="message" class="message">System ready.</p>
+      </div>
+
+      <div class="panel">
+        <h2>System Status</h2>
+        <div class="status-row"><span>Pump</span><strong id="pumpStatus">OFF</strong></div>
+        <div class="status-row"><span>Arduino</span><strong id="arduinoStatus">Waiting</strong></div>
+        <div class="status-row"><span>Last watering</span><strong id="lastWatering">Never</strong></div>
+        <div class="status-row"><span>Selected crop</span><strong id="cropStatus">Beans</strong></div>
+
+        <label>Crop profile</label>
+        <select id="crop">
+          <option>Beans</option>
+          <option>Tomatoes</option>
+          <option>Maize</option>
+          <option>Vegetables</option>
+          <option>Custom</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Soil Moisture History</h2>
+      <canvas id="chart" width="900" height="300"></canvas>
+    </section>
+
+    <section class="panel">
+      <h2>Recent Measurements</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Time</th><th>Moisture</th><th>Temperature</th><th>Humidity</th><th>Pump</th></tr>
+          </thead>
+          <tbody id="historyTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel science">
+      <h2>🔬 Science Fair Data</h2>
+      <p>Use this dashboard to compare conventional irrigation with smart irrigation.</p>
+      <div class="science-grid">
+        <div><span>Total watering events</span><strong id="events">0</strong></div>
+        <div><span>Total water used</span><strong><span id="totalWater">0.00</span> L</strong></div>
+        <div><span>Average moisture</span><strong><span id="averageMoisture">0</span>%</strong></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
